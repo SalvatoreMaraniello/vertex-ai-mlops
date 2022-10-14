@@ -1,20 +1,7 @@
-# Applied Pre-Trained APIs
-This series of notebooks will feature Google Cloud Pre-Trained APIs:
-- [Media Translation](https://cloud.google.com/translate/media/docs/streaming)
-- [Cloud Vision](https://cloud.google.com/vision/docs/features-list)
-- [Cloud Video Intelligence AI](https://cloud.google.com/video-intelligence/docs/features)
-- [Translation AI](https://cloud.google.com/translate/docs/overview)
-- [Cloud Text-to-Speech](https://cloud.google.com/text-to-speech/docs/before-you-begin)
-- [Cloud Speech-to-Text](https://cloud.google.com/speech-to-text/docs/concepts)
-- [Cloud Natural Language](https://cloud.google.com/natural-language/docs/basics)
-- [Cloud Inference API](https://cloud.google.com/inference/docs)
-- [Cloud Data Loss Prevention](https://cloud.google.com/dlp/docs/concepts)
+## Overview
 
-## Notebooks
-- [api-fun-demo.ipynb](./api-fun-demo.ipynb)
-    - a full circle demonstration for most of the Vertex AI based pre-trained APIs
 
-## Pre-Trained APIs
+### Pre-Trained APIs
 <table style='text-align:center;vertical-align:middle' width="100%" cellpadding="1" cellspacing="0">
     <tr>
         <th colspan='4'>Pre-Trained Models</th>
@@ -121,15 +108,106 @@ This series of notebooks will feature Google Cloud Pre-Trained APIs:
     </tr>
 </table>
 
----
 
-ToDo:
-- [ ] Rename the fun-demo
-    - [ ] add links for client in each section and at top
-    - [ ] overview of capabilities of each API in text
-    - [ ] expand image example
-    - [ ] refine client definitions to latest versions
-- [ ] split fun-demo into per API demos as hello-world examples
-- [ ] bring in speech-to-text POC gist
-    - [ ] incorporate Google GitHub package for accuracy measures
-- [ ] bring in document AI demo
+### AutoML
+<table style='text-align:center;vertical-align:middle' width="100%" cellpadding="1" cellspacing="0">
+    <tr>
+        <th colspan='3'>AutoML</th>
+    </tr>
+    <tr>
+        <th>Data Type</th>
+        <th>
+            <img src="https://fonts.gstatic.com/s/i/gcpiconscolors/automl/v1/32px.svg">
+            <br><a href="https://cloud.google.com/vertex-ai/docs/beginner/beginners-guide" target="_blank">AutoML</a>
+        </th>
+        <th>Prediction Types</th>
+    </tr>
+    <tr>
+        <td>
+            <img src="https://fonts.gstatic.com/s/i/short-term/release/googlesymbols/table/default/40px.svg">
+            <br>Table
+        </td>
+        <td>
+            <img src="https://fonts.gstatic.com/s/i/gcpiconscolors/automl_tables/v1/32px.svg">
+            <br><a href="https://cloud.google.com/vertex-ai/docs/training-overview#tabular_data" target="_blank">AutoML Tables</a>
+        </td>
+        <td>
+            <dl>
+                <dt>Classification</dt>
+                    <dd>Binary</dd>
+                    <dd>Multi-class</dd>
+                <dt>Regression</dt>
+                <dt>Forecasting</dt>
+            </dl>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <img src="https://fonts.gstatic.com/s/i/short-term/release/googlesymbols/image/default/40px.svg">
+            <br>Image
+        </td>
+        <td>
+            <img src="https://fonts.gstatic.com/s/i/gcpiconscolors/automl_vision/v1/32px.svg">
+            <br><a href="https://cloud.google.com/vertex-ai/docs/training-overview#image_data" target="_blank">AutoML Image</a>
+        </td>
+        <td>
+            <dl>
+                <dt>Classification</dt>
+                    <dd>Single-label</dd>
+                    <dd>Multi-label</dd>
+                <dt>Object Detection</dt>
+            </dl>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <img src="https://fonts.gstatic.com/s/i/short-term/release/googlesymbols/videocam/default/40px.svg">
+            <br>Video
+        </td>
+        <td>
+            <img src="https://fonts.gstatic.com/s/i/gcpiconscolors/automl_video_intelligence/v1/32px.svg">
+            <br><a href="https://cloud.google.com/vertex-ai/docs/training-overview#video_data" target="_blank">AutoML Video</a>
+        </td>
+        <td>
+            <dl>
+                <dt>Classification</dt>
+                <dt>Object Detection</dt>
+                <dt>Action Recognition</dt>
+            </dl>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <img src="https://fonts.gstatic.com/s/i/short-term/release/googlesymbols/text_snippet/default/40px.svg">
+            <br>Text
+        </td>
+        <td>
+            <img src="https://fonts.gstatic.com/s/i/gcpiconscolors/automl_natural_language/v1/32px.svg">
+            <br><a href="https://cloud.google.com/vertex-ai/docs/training-overview#text_data" target="_blank">AutoML Text</a>
+        </td>
+        <td>
+            <dl>
+                <dt>Classification</dt>
+                    <dd>Single-label</dd>
+                    <dd>Multi-label</dd>
+                <dt>Entity Extraction</dt>
+                <dt>Sentiment Analysis</dt>
+            </dl>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <img src="https://fonts.gstatic.com/s/i/short-term/release/googlesymbols/text_snippet/default/40px.svg">
+            <br>Text
+        </td>
+        <td>
+            <img src="https://fonts.gstatic.com/s/i/gcpiconscolors/automl_translation/v1/32px.svg">
+            <br><a href="https://cloud.google.com/translate/automl/docs" target="_blank">AutoML Translation</a>
+        </td>
+        <td>
+            Translation
+        </td>
+    </tr>
+</table>
+
+
