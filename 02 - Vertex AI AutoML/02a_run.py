@@ -22,10 +22,10 @@ NOTEBOOK = '02a'
 
 # init clients/sdk
 aiplatform.init(project=PROJECT_ID, location=REGION)
-bigquery = bigquery.Client()
+bq = bigquery.Client()
 
 # Let's pull some data from BigQuery (will be used for prediction later)
-pred = bigquery.query(
+pred = bq.query(
     query = f"SELECT * FROM {DATANAME}.{DATANAME}_prepped WHERE splits='TEST' LIMIT 10"
 ).to_dataframe()
 pred = pred.drop(columns=['Class', 'transaction_id'], errors='ignore')
