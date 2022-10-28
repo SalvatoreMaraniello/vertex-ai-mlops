@@ -1,4 +1,4 @@
-## Buckets
+## Storage
 
 ```python
 gcs = storage.Client(project = PROJECT_ID)
@@ -9,12 +9,21 @@ if not gcs.lookup_bucket(BUCKET):
     bucket = gcs.create_bucket(bucketDef, project=PROJECT_ID, location=REGION)
     print(f'Created Bucket: {gcs.lookup_bucket(BUCKET).name}')
 else:
-    bucketDef = gcs.bucket(BUCKET)
-    print(f'Bucket already exist: {bucketDef.name}')
+    bucket = gcs.bucket(BUCKET)
+    print(f'Bucket already exist: {bucket.name}')
 
 # list blobs
-list(bucketDef.list_blobs(prefix = f'a/prpwd
-                          efix'))
+list(bucket.list_blobs(prefix = f'bucket-name-prefix'))
+
+# upload a file to blob (if not exists)
+file_name = 'dummy.json'
+local_path = 'path to folder containing file'
+blob_path = 'blob gsutil path without gs://BUCKET/'
+storage_client = storage.Client()
+bucket = gcs.bucket(BUCKET)
+blob = bucket.blob(f"{blob_path}/{file_name}")
+if not blob.exists():
+    blob.upload_from_filename(f"{local_path}/{file_name}")
 ```
 
 
@@ -46,11 +55,108 @@ pred = bq.query(
 
 ## AI Platform
 
+Plenty more snippets can be found on https://cloud.google.com/python/docs/reference.
+
 ```python
 from google.cloud import aiplatform
+PROJECT_ID = os.popen('gcloud config get-value project').read()[:-1]
+REGION = 'europe-west2'
 
 # initialisation (nothing will work otherwise)
 aiplatform.init(project=PROJECT_ID, location=REGION)
+
+# create dataset (from BQ table)
+dataset = aiplatform.TabularDataset.create(
+    display_name = 'MyDataset', 
+    bq_source = f'bq://{PROJECT_ID}.{DATASET}.{TABLE}', # create from BQ table,
+    # gcs_source=['gs://path/to/my/dataset.csv']        # create from storage
+    labels = {'notebook':f'{NOTEBOOK}'}
+)
+
+# List datasets
+datasets_list = aiplatform.TabularDataset.list(
+    project=PROJECT_ID, location=REGION, filter='display_name="NAME"')
+for dd in datasets_list:
+    print(f'{dd.display_name}: {dd.name}')
+
+# get datasets (you need the dataset name, not diplay name used above!)
+dataset = aiplatform.TabularDataset( dataset_name = '19372784921038', project = PROJECT_ID)
+
+# delete it
+dataset.delete()
+
+# Set a train job using AutoML
+job = training_jobs.AutoMLTabularTrainingJob(
+    display_name="my_display_name",
+    optimization_prediction_type="classification",
+    optimization_objective="minimize-log-loss",
+    column_specs={"column_1": "auto", "column_2": "numeric"},
+    labels={'key': 'value', 'another_key': 'another_value'},
+)
+
+# list models
+models_list = aiplatform.Model.list()
+for model in models_list:
+    print(f"DISPLAY NAME: {model.display_name}. MODEL_ID: {model.name}")
+
+# Get a model
+model = aiplatform.Model('/projects/my-project/locations/us-central1/models/{MODEL_ID}')
+
+### List/Get a model evaluation (and some metrics)
+evaluations_list = model.list_model_evaluations()
+evaluation = evaluations[0]
+# evaluation = model.get_model_evaluation( eval_id or evaluation.name)
+for metric, value in evaluation.metrics.items():
+    if metric == 'confidenceMetrics':
+        continue
+    print(f"{metric},{value}")
+
+for i in range(len(geteval.metrics['confusionMatrix']['annotationSpecs'])):
+    print('True Label = ', geteval.metrics['confusionMatrix']['annotationSpecs'][i]['displayName'], ' has Predicted labels = ', geteval.metrics['confusionMatrix']['rows'][i])
+    
+### List/Get evaluation slices (we need a different client)
+model_client = aiplatform.gapic.ModelServiceClient(
+    client_options={"api_endpoint": f'{REGION}-aiplatform.googleapis.com'})
+
+slices_list = model_client.list_model_evaluation_slices(
+    # str like 'projects/PROJECT-ID/locations/REGION/models/MODEL-ID/evaluations/EVAL-ID'
+    parent=model_client.model_evaluation_path(
+        project=PROJECT_ID, location=REGION, model=model.name, evaluation=evaluation.name
+    )
+)
+for me_slice in response:
+    print("model_evaluation_slice:", me_slice)
+```
+
+## Kuberflow and Vertex AI Pipelines
+
+Google provides pre-built components under module `google_cloud_pipeline_components`. See https://cloud.google.com/vertex-ai/docs/pipelines/components-introduction or also https://cloud.google.com/vertex-ai/docs/pipelines/notebooks or the components reference list https://cloud.google.com/vertex-ai/docs/pipelines/gcpc-list.
+
+```python
+import kfp
+@kfp.dsl.pipeline(
+    name = f'kfp-{NOTEBOOK}-{DATANAME}-{TIMESTAMP}',
+    description = "A description"
+    # root dir to generate in/output under this pipeline. It's the address to a blob in a pre-existing bucket.
+    pipeline_root = f"gs://{BUCKET}/a/path")
+def my_pipeline(
+    my_inputs: str,
+    can_be: dict,
+    anything: int):
+    """Objects in here are kfp components. Any piece of code outside a component object is evaluated
+    only once at compile time - and won't change in the future."""
+    
+    
+    # dataset
+    dataset = gcc_aip.TabularDatasetCreateOp(
+        # Inputs are the same as aiplatform.TabularDataset.create. 
+        # Output is different though.
+        project = project, display_name = display_name,
+        bq_source = bq_source, labels = labels
+    )
+    
+
+
 ```
 
 
