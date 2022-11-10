@@ -1,3 +1,13 @@
+## General
+
+```
+# Get project id
+PROJECT_ID = os.popen('gcloud config get-value project').read()
+if PROJECT_ID.endswith("\n"):
+    PROJECT_ID = PROJECT_ID[:-1]
+```
+
+
 ## Storage
 
 ```python
